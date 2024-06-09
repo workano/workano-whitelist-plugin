@@ -3,4 +3,3 @@ namespace: workano
 version: 0.0.1
 author: Mohsen Rezvani
 display_name: Workano Whitelist
-entrypoint: wazo_confd_whitelist.plugin:Plugin
