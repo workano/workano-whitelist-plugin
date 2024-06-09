@@ -141,15 +141,3 @@ definitions:
                 type: integer
         required:
             - total
-
-responses:
-    NotFoundError:
-        description: Entity not found
-    UpdateError:
-        description: Update error
-    DeleteError:
-        description: Delete error
-    ResourceUpdated:
-        description: Resource updated successfully
-    ResourceDeleted:
-        description: Resource deleted successfully
