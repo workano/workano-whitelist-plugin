@@ -7,7 +7,7 @@ setup(
     name='wazo-confd-whitelist',
     version='0.1',
     description='Workano whitelist plugin',
-    author='Mohsen K',
+    author='Mohsen Rezvani',
     author_email='foo@bar.com',
     packages=find_packages(),
     url='https://www.foo-bar.com',
@@ -19,5 +19,8 @@ setup(
         'wazo_confd.plugins': [
             'whitelist = wazo_confd_whitelist.plugin:Plugin'
         ]
-    }
+    },
+    install_requires=[
+        # List your dependencies here
+    ],
 )

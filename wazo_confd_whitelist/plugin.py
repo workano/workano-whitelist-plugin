@@ -1,11 +1,10 @@
 import logging
 
-from .whitelist.resource import WhitelistListResource, WhitelistItemResource
+from .whitelist.resource import WhitelistList, WhitelistItem
 from .services import build_whitelist_service
 from .db import init_db
 
 logger = logging.getLogger(__name__)
-
 
 class Plugin:
     def load(self, dependencies):
@@ -16,13 +15,13 @@ class Plugin:
 
         # Whitelists
         api.add_resource(
-            WhitelistListResource,
+            WhitelistList,
             '/whitelists',
             resource_class_args=(whitelist_service,)
         )
         api.add_resource(
-            WhitelistItemResource,
-            '/whitelists/<int:uuid>',
+            WhitelistItem,
+            '/whitelists/<int:id>',
             endpoint='whitelists',
             resource_class_args=(whitelist_service,)
         )
