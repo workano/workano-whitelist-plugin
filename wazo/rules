@@ -6,8 +6,9 @@ case "$1" in
     ;;
 
     package)
-        tar xvf dist/python3/wazo-confd-whitelist-*.tar.gz -C ${pkgdir}
-        cp -R etc ${pkgdir}/
+        mkdir -p ${pkgdir}/usr/share/wazo-confd/plugins
+        cp -R dist/python3/wazo-confd-whitelist-*.tar.gz ${pkgdir}/usr/share/wazo-confd/plugins/
+        cp -R etc ${pkgdir}/usr/share/wazo-confd/plugins/
     ;;
 
     install)
