@@ -5,21 +5,28 @@ case "$1" in
         python3 setup.py bdist -d dist/python3
     ;;
 
+    # package)
+    #     mkdir -p ${pkgdir}/usr/share/wazo-confd/plugins
+    #     tar -xvf dist/python3/wazo-confd-whitelist-*.tar.gz -C ${pkgdir}/usr/share/wazo-confd/plugins/
+    #     cp -R etc ${pkgdir}/usr/share/wazo-confd/plugins/ || true
+    # ;;
     package)
-        mkdir -p ${pkgdir}/usr/share/wazo-confd/plugins
-        tar -xvf dist/python3/wazo-confd-whitelist-*.tar.gz -C ${pkgdir}/usr/share/wazo-confd/plugins/
-        cp -R etc ${pkgdir}/usr/share/wazo-confd/plugins/ || true
+        tar xvf dist/python3/wazo-confd-whitelist-*.tar.gz -C ${pkgdir}
+        cp -R etc ${pkgdir}/
     ;;
 
     install)
         systemctl restart wazo-confd
-        asterisk -x 'dialplan reload'
+        # asterisk -x 'dialplan reload'
     ;;
 
     uninstall)
+        rm -rf /usr/share/wazo-confd/plugins/wazo-confd-whitelist*
+        rm -rf /etc/your-specific-whitelist-config-directory  # Add specific config directory if any
         systemctl restart wazo-confd
-        asterisk -x 'dialplan reload'
+        # asterisk -x 'dialplan reload'
     ;;
+
 
     postrm)
     ;;
