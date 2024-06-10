@@ -1,10 +1,10 @@
 paths:
-    /mohsens:
+    /whitelists:
         get:
-            summary: List mohsens
-            description: "**Required ACL:** `confd.mohsen.read`"
+            summary: List whitelist
+            description: "**Required ACL:** `confd.whitelist.read`"
             tags:
-                - mohsens
+                - whitelists
             parameters:
                 - $ref: "#/parameters/tenantuuid"
             responses:
@@ -13,10 +13,10 @@ paths:
                     schema:
                         $ref: "#/definitions/WhitelistItems"
         post:
-            summary: Create mohsen
-            description: "**Required ACL:** `confd.mohsen.create`"
+            summary: Create whitelist
+            description: "**Required ACL:** `confd.whitelist.create`"
             tags:
-                - mohsens
+                - whitelists
             parameters:
                 - $ref: "#/parameters/tenantuuid"
                 - name: body
@@ -31,12 +31,12 @@ paths:
                     schema:
                         $ref: "#/definitions/Whitelist"
 
-    /mohsens/{whitelist_id}:
+    /whitelists/{whitelist_id}:
         get:
             summary: Get Whitelist
-            description: "**Required ACL:** `confd.mohsen.{whitelist_id}.read`"
+            description: "**Required ACL:** `confd.whitelist.{whitelist_id}.read`"
             tags:
-                - mohsens
+                - whitelists
             parameters:
                 - $ref: "#/parameters/tenantuuid"
                 - $ref: "#/parameters/whitelistid"
@@ -49,9 +49,9 @@ paths:
                     $ref: "#/responses/NotFoundError"
         put:
             summary: Update Whitelist
-            description: "**Required ACL:** `confd.mohsen.{whitelist_id}.update`"
+            description: "**Required ACL:** `confd.whitelist.{whitelist_id}.update`"
             tags:
-                - mohsens
+                - whitelists
             parameters:
                 - $ref: "#/parameters/tenantuuid"
                 - $ref: "#/parameters/whitelistid"
@@ -68,10 +68,10 @@ paths:
                 "404":
                     $ref: "#/responses/NotFoundError"
         delete:
-            summary: Delete mohsen
-            description: "**Required ACL:** `confd.mohsen.{whitelist_id}.delete`"
+            summary: Delete whitelist
+            description: "**Required ACL:** `confd.whitelist.{whitelist_id}.delete`"
             tags:
-                - mohsens
+                - whitelists
             parameters:
                 - $ref: "#/parameters/tenantuuid"
                 - $ref: "#/parameters/whitelistid"
@@ -105,31 +105,13 @@ definitions:
                   id:
                       type: integer
                       readOnly: true
-                      description: The id of the mohsen
-                  tenant_uuid:
+                      description: The id of the whitelist
+                  exten:
                       type: string
-                      description: Tenant UUID
-                  ip_addresses:
-                      type: array
-                      items:
-                          type: string
-                      description: List of IP addresses
-                  domains:
-                      type: array
-                      items:
-                          type: string
-                      description: List of domains
-                  created_at:
+                      description: extension
+                  blocked_num:
                       type: string
-                      format: date
-                      description: Creation date
-                  expire_at:
-                      type: string
-                      format: date
-                      description: Expiration date
-                  renew:
-                      type: boolean
-                      description: Renewal status
+                      description: blocked extension or number
     WhitelistItems:
         title: WhitelistItems
         properties:

@@ -33,13 +33,17 @@ def find_all_by(tenant_uuids=None, **criteria):
     return _persistor(tenant_uuids).find_all_by(criteria)
 
 
-def create(mohsen):
-    return _persistor().create(mohsen)
+def create(whitelist):
+    return _persistor().create(whitelist)
 
 
-def edit(mohsen):
-    _persistor().edit(mohsen)
+def edit(whitelist):
+    _persistor().edit(whitelist)
 
 
-def delete(mohsen):
-    _persistor().delete(mohsen)
+def delete(whitelist):
+    _persistor().delete(whitelist)
+
+
+def is_blocked_num(tenant_uuid, exten, blocked_num):
+    return _persistor().is_blocked_num(tenant_uuid, exten, blocked_num)

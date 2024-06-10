@@ -1,4 +1,4 @@
-name: wazo-confd-mohsen
+name: wazo-confd-whitelist
 namespace: workano
 version: 0.0.1
 author: Mohsen Rezvani
