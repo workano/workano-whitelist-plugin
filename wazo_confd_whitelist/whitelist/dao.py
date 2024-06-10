@@ -43,7 +43,3 @@ def edit(whitelist):
 
 def delete(whitelist):
     _persistor().delete(whitelist)
-
-
-def is_blocked_num(tenant_uuid, exten, blocked_num):
-    return _persistor().is_blocked_num(tenant_uuid, exten, blocked_num)

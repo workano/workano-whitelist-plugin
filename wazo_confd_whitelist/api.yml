@@ -106,12 +106,30 @@ definitions:
                       type: integer
                       readOnly: true
                       description: The id of the whitelist
-                  exten:
+                  tenant_uuid:
                       type: string
-                      description: extension
-                  blocked_num:
+                      description: The tenant's UUID
+                  ip_addresses:
+                      type: array
+                      items:
+                          type: string
+                      description: List of IP addresses
+                  domains:
+                      type: array
+                      items:
+                          type: string
+                      description: List of domains
+                  created_at:
                       type: string
-                      description: blocked extension or number
+                      format: date
+                      description: Creation date
+                  expire_at:
+                      type: string
+                      format: date
+                      description: Expiration date
+                  renew:
+                      type: boolean
+                      description: Renewal status
     WhitelistItems:
         title: WhitelistItems
         properties:

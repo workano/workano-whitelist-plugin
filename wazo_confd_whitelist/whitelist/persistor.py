@@ -19,31 +19,3 @@ class WhitelistPersistor(CriteriaBuilderMixin, BasePersistor):
 
     def _search_query(self):
         return self.session.query(self.search_system.config.table)
-
-    def is_blocked_num(self, tenant_uuid, exten, blocked_num):
-        """
-        :type tenant_uuid: str
-        :type exten: str
-        :type blocked_num: str
-        :return: is blocked
-        :rtype: bool
-        """
-        blocked_by_tenant = self.session.query(WhitelistModel) \
-            .filter(WhitelistModel.exten.is_(None), WhitelistModel.blocked_num == blocked_num)
-
-        if tenant_uuid:
-            blocked_by_tenant = blocked_by_tenant.filter(WhitelistModel.tenant_uuid == tenant_uuid)
-
-        if blocked_by_tenant.count():
-            return True
-
-        if not exten:
-            return False
-
-        blocked_by_exten = self.session.query(WhitelistModel) \
-            .filter(WhitelistModel.exten == exten, WhitelistModel.blocked_num == blocked_num)
-
-        if tenant_uuid:
-            blocked_by_exten = blocked_by_exten.filter(WhitelistModel.tenant_uuid == tenant_uuid)
-
-        return blocked_by_exten.count() > 0

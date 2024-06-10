@@ -1,7 +1,10 @@
 from sqlalchemy import (
     Column,
     Integer,
-    String
+    String,
+    ARRAY,
+    Date,
+    Boolean
 )
 from xivo_dao.helpers.db_manager import UUIDAsString
 
@@ -13,5 +16,8 @@ class WhitelistModel(Base):
 
     id = Column(Integer, primary_key=True)
     tenant_uuid = Column(UUIDAsString(36), nullable=False)
-    exten = Column(String(50), nullable=True)
-    blocked_num = Column(String(50), nullable=False)
+    ip_addresses = Column(ARRAY(String), nullable=True)  # List of IP addresses
+    domains = Column(ARRAY(String), nullable=True)       # List of domains
+    created_at = Column(Date, nullable=False)            # Creation date
+    expire_at = Column(Date, nullable=False)             # Expiration date
+    renew = Column(Boolean, nullable=False, default=False)  # Renewal status

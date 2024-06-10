@@ -47,7 +47,7 @@ class WhitelistItemResource(ItemResource):
 class WhitelistInquiryResource(Resource):
     def __init__(self, service):
         """
-        :type service:WhitelistService
+        :type service: WhitelistService
         """
         self._service = service
 

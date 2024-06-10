@@ -7,8 +7,12 @@ whitelist_config = SearchConfig(
     table=WhitelistModel,
     columns={
         'id': WhitelistModel.id,
-        'exten': WhitelistModel.exten,
-        'blocked_num': WhitelistModel.blocked_num,
+        'tenant_uuid': WhitelistModel.tenant_uuid,
+        'ip_addresses': WhitelistModel.ip_addresses,
+        'domains': WhitelistModel.domains,
+        'created_at': WhitelistModel.created_at,
+        'expire_at': WhitelistModel.expire_at,
+        'renew': WhitelistModel.renew,
     },
     default_sort='id',
 )
