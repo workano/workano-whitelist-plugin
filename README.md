@@ -10,11 +10,11 @@ systemctl restart wazo-confd
 ```
 ### Install plugin
 ```shell
-wazo-plugind-cli -c "install git https://github.com/workano/workano-whitelist-plugin.git"
+wazo-plugind-cli -c "install git https://github.com/workano/workano-mohsen-plugin.git"
 ```
 ### Uninstall plugin
 ```shell
-wazo-plugind-cli -c "uninstall workano/wazo-confd-whitelist"
+wazo-plugind-cli -c "uninstall workano/wazo-confd-mohsen"
 ```
 
 ### Linux requirement

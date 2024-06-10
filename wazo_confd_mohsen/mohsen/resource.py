@@ -14,13 +14,13 @@ class WhitelistListResource(ListResource):
     model = WhitelistModel
 
     def build_headers(self, model):
-        return {'Location': url_for('whitelists', id=model.id, _external=True)}
+        return {'Location': url_for('mohsens', id=model.id, _external=True)}
 
-    @required_acl('confd.whitelists.create')
+    @required_acl('confd.mohsens.create')
     def post(self):
         return super().post()
 
-    @required_acl('confd.whitelists.read')
+    @required_acl('confd.mohsens.read')
     def get(self):
         return super().get()
 
@@ -28,15 +28,15 @@ class WhitelistItemResource(ItemResource):
     schema = WhitelistSchema
     model = WhitelistModel
 
-    @required_acl('confd.whitelists.read')
+    @required_acl('confd.mohsens.read')
     def get(self, id):
         return super().get(id)
 
-    @required_acl('confd.whitelists.update')
+    @required_acl('confd.mohsens.update')
     def put(self, id):
         return super().put(id)
 
-    @required_acl('confd.whitelists.delete')
+    @required_acl('confd.mohsens.delete')
     def delete(self, id):
         return super().delete(id)
 

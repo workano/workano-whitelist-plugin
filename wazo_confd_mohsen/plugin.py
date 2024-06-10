@@ -1,6 +1,6 @@
 import logging
 
-from .whitelist.resource import WhitelistListResource, WhitelistItemResource, WhitelistInquiryResource
+from .mohsen.resource import WhitelistListResource, WhitelistItemResource, WhitelistInquiryResource
 from .services import build_whitelist_service
 from .db import init_db
 
@@ -11,23 +11,23 @@ class Plugin:
     def load(self, dependencies):
         logger.info('Whitelist plugin loading')
         try:
-            init_db('postgresql://asterisk:proformatique@localhost/asterisk?application_name=wazo-whitelist-plugin')
+            init_db('postgresql://asterisk:proformatique@localhost/asterisk?application_name=wazo-mohsen-plugin')
             api = dependencies['api']
             whitelist_service = build_whitelist_service()
 
             # Register API resources
             api.add_resource(
                 WhitelistListResource,
-                '/whitelists',
+                '/mohsens',
                 resource_class_args=(whitelist_service,)
             )
             api.add_resource(
                 WhitelistItemResource,
-                '/whitelists/<int:id>',
-                endpoint='whitelists',
+                '/mohsens/<int:id>',
+                endpoint='mohsens',
                 resource_class_args=(whitelist_service,)
             )
 
             logger.info('Whitelist plugin loaded successfully')
         except Exception as e:
-            logger.error(f'Error loading whitelist plugin: {e}', exc_info=True)
+            logger.error(f'Error loading mohsen plugin: {e}', exc_info=True)

@@ -1,4 +1,4 @@
-from xivo_dao.resources.whitelist import dao as whitelist_dao
+from xivo_dao.resources.mohsen import dao as whitelist_dao
 
 from wazo_confd.helpers.validator import (
     UniqueField,
