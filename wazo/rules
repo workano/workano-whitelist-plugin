@@ -1,44 +1,36 @@
 #!/bin/sh
 
-log_file="/var/log/wazo-confd-plugin-install.log"
-
-log() {
-    echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | tee -a $log_file
-}
-
 case "$1" in
     build)
-        log "Building the plugin"
         python3 setup.py bdist -d dist/python3
-        ;;
+    ;;
 
+    # package)
+    #     mkdir -p ${pkgdir}/usr/share/wazo-confd/plugins
+    #     tar -xvf dist/python3/wazo-confd-whitelist-*.tar.gz -C ${pkgdir}/usr/share/wazo-confd/plugins/
+    #     cp -R etc ${pkgdir}/usr/share/wazo-confd/plugins/ || true
+    # ;;
     package)
-        log "Packaging the plugin"
-        tar xvf dist/python3/wazo-confd-whitelist-*.tar.gz -C ${pkgdir} | tee -a $log_file
-        cp -R etc ${pkgdir}/ | tee -a $log_file
-        ;;
+        tar xvf dist/python3/wazo-confd-whitelist-*.tar.gz -C ${pkgdir}
+        cp -R etc ${pkgdir}/
+    ;;
 
     install)
-        log "Installing the plugin"
         systemctl restart wazo-confd
         # asterisk -x 'dialplan reload'
-        ;;
+    ;;
 
     uninstall)
-        log "Uninstalling the plugin"
-        rm -rf /usr/share/wazo-confd/plugins/wazo-confd-whitelist* | tee -a $log_file
-        rm -rf /etc/your-specific-whitelist-config-directory  # Add specific config directory if any
         systemctl restart wazo-confd
         # asterisk -x 'dialplan reload'
-        ;;
+    ;;
+
 
     postrm)
-        log "Post-removal steps"
-        ;;
+    ;;
 
     *)
-        log "Called with unknown argument '$1'"
         echo "$0 called with unknown argument '$1'" >&2
         exit 1
-        ;;
+    ;;
 esac
