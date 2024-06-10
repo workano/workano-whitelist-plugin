@@ -1,6 +1,6 @@
 import logging
 
-from .whitelist.resource import WhitelistList, WhitelistItem
+from .whitelist.resource import WhitelistListResource, WhitelistItemResource, WhitelistInquiryResource
 from .services import build_whitelist_service
 from .db import init_db
 
@@ -17,12 +17,12 @@ class Plugin:
 
             # Register API resources
             api.add_resource(
-                WhitelistList,
+                WhitelistListResource,
                 '/whitelists',
                 resource_class_args=(whitelist_service,)
             )
             api.add_resource(
-                WhitelistItem,
+                WhitelistItemResource,
                 '/whitelists/<int:id>',
                 endpoint='whitelists',
                 resource_class_args=(whitelist_service,)

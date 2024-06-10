@@ -1,19 +1,20 @@
-from flask import url_for
-
-from xivo_dao.alchemy.whitelist import WhitelistModel
-
+import logging
+from flask import url_for, request, make_response
+from flask_restful import Resource
 from wazo_confd.auth import required_acl
-from wazo_confd.helpers.restful import ListResource, ItemResource
+from wazo_confd.helpers.restful import ItemResource, ListResource
 
+from .model import WhitelistModel
 from .schema import WhitelistSchema
 
+logger = logging.getLogger(__name__)
 
-class WhitelistList(ListResource):
-    model = WhitelistModel
+class WhitelistListResource(ListResource):
     schema = WhitelistSchema
+    model = WhitelistModel
 
-    def build_headers(self, whitelist):
-        return {'Location': url_for('whitelists', id=whitelist.id, _external=True)}
+    def build_headers(self, model):
+        return {'Location': url_for('whitelists', id=model.id, _external=True)}
 
     @required_acl('confd.whitelists.create')
     def post(self):
@@ -23,19 +24,21 @@ class WhitelistList(ListResource):
     def get(self):
         return super().get()
 
-
-class WhitelistItem(ItemResource):
+class WhitelistItemResource(ItemResource):
     schema = WhitelistSchema
-    has_tenant_uuid = True
+    model = WhitelistModel
 
-    @required_acl('confd.whitelists.{id}.read')
+    @required_acl('confd.whitelists.read')
     def get(self, id):
         return super().get(id)
 
-    @required_acl('confd.whitelists.{id}.update')
+    @required_acl('confd.whitelists.update')
     def put(self, id):
         return super().put(id)
 
-    @required_acl('confd.whitelists.{id}.delete')
+    @required_acl('confd.whitelists.delete')
     def delete(self, id):
         return super().delete(id)
+
+
+
