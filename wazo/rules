@@ -5,11 +5,6 @@ case "$1" in
         python3 setup.py bdist -d dist/python3
     ;;
 
-    # package)
-    #     mkdir -p ${pkgdir}/usr/share/wazo-confd/plugins
-    #     tar -xvf dist/python3/wazo-confd-whitelist-*.tar.gz -C ${pkgdir}/usr/share/wazo-confd/plugins/
-    #     cp -R etc ${pkgdir}/usr/share/wazo-confd/plugins/ || true
-    # ;;
     package)
         tar xvf dist/python3/wazo-confd-whitelist-*.tar.gz -C ${pkgdir}
         cp -R etc ${pkgdir}/
