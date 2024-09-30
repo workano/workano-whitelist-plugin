@@ -1,3 +1,4 @@
+# resources.py
 import logging
 
 from flask import url_for, request, make_response
@@ -16,7 +17,7 @@ class WhitelistListResource(ListResource):
     model = WhitelistModel
 
     def build_headers(self, model):
-        return {'Location': url_for('whitelists', uuid=model.id, _external=True)}
+        return {'Location': url_for('whitelists', uuid=model.uuid, _external=True)}
 
     @required_acl('confd.whitelists.create')
     def post(self):
@@ -53,10 +54,25 @@ class WhitelistInquiryResource(Resource):
 
     def get(self):
         tenant_uuid = request.headers.get('Wazo-Tenant')
-        from_num = request.args.get('from_num')
-        to_num = request.args.get('to_num')
-        is_block = self._service.is_blocked_num(tenant_uuid, to_num, from_num)
-        logger.info(f"Whitelist Inquiry {tenant_uuid} : {from_num} => {to_num} : {is_block}")
+        url = request.args.get('url')
+        is_whitelisted = self._service.is_url_whitelisted(tenant_uuid, url)
+        logger.info(f"Whitelist Inquiry {tenant_uuid} : {url} : {is_whitelisted}")
 
-        response = "BLOCKED" if is_block else "NOT_BLOCKED"
+        response = "ALLOWED" if is_whitelisted else "NOT_ALLOWED"
         return make_response(response)
+
+
+class WhitelistUniqueIdResource(Resource):
+    def __init__(self, service):
+        """
+        :type service: WhitelistService
+        """
+        self._service = service
+
+    def get(self, unique_id):
+        tenant_uuid = request.headers.get('Wazo-Tenant')
+        url = self._service.get_url_by_unique_id(tenant_uuid, unique_id)
+        if url:
+            return make_response({"url": url}, 200)
+        else:
+            return make_response({"error": "Not Found"}, 404)

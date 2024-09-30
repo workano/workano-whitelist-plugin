@@ -1,6 +1,12 @@
+# plugin.py
 import logging
 
-from .whitelist.resource import WhitelistInquiryResource, WhitelistListResource, WhitelistItemResource
+from .whitelist.resources import (
+    WhitelistListResource,
+    WhitelistItemResource,
+    WhitelistInquiryResource,
+    WhitelistUniqueIdResource
+)
 from .whitelist.services import build_whitelist_service
 from .db import init_db
 
@@ -14,22 +20,29 @@ class Plugin:
         api = dependencies['api']
         whitelist_service = build_whitelist_service()
 
-        # Whitelists
+        # Register existing resources
         api.add_resource(
             WhitelistListResource,
             '/whitelists',
-            resource_class_args=(whitelist_service,)
+            resource_class_kwargs={'service': whitelist_service}
         )
         api.add_resource(
             WhitelistItemResource,
-            '/whitelists/<int:uuid>',
+            '/whitelists/<string:uuid>',
             endpoint='whitelists',
-            resource_class_args=(whitelist_service,)
+            resource_class_kwargs={'service': whitelist_service}
         )
+
+        # Register new resources
         api.add_resource(
             WhitelistInquiryResource,
-            '/whitelists/inquiry',
-            resource_class_args=(whitelist_service,)
+            '/whitelists/check',
+            resource_class_kwargs={'service': whitelist_service}
+        )
+        api.add_resource(
+            WhitelistUniqueIdResource,
+            '/whitelists/unique/<string:unique_id>',
+            resource_class_kwargs={'service': whitelist_service}
         )
 
         logger.info('Whitelist plugin loaded')

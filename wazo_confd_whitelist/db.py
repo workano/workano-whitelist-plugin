@@ -1,3 +1,4 @@
+# db.py
 import logging
 
 from sqlalchemy import create_engine
@@ -10,11 +11,11 @@ Base = declarative_base()
 logger = logging.getLogger(__name__)
 ScopedSession = scoped_session(sessionmaker())
 
-
 def init_db(db_uri):
     engine = create_engine(db_uri)
     if not database_exists(engine.url):
-        logger.info('creating db')
+        logger.info('Creating database...')
         create_database(engine.url)
     Base.metadata.create_all(engine)
     ScopedSession.configure(bind=engine)
+    logger.info('Database initialized.')

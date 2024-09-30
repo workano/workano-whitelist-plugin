@@ -1,143 +1,179 @@
+# api.yml
 paths:
-    /whitelists:
-        get:
-            summary: List whitelist
-            description: "**Required ACL:** `confd.whitelist.read`"
-            tags:
-                - whitelists
-            parameters:
-                - $ref: "#/parameters/tenantuuid"
-            responses:
-                "200":
-                    description: Whitelist
-                    schema:
-                        $ref: "#/definitions/WhitelistItems"
-        post:
-            summary: Create whitelist
-            description: "**Required ACL:** `confd.whitelist.create`"
-            tags:
-                - whitelists
-            parameters:
-                - $ref: "#/parameters/tenantuuid"
-                - name: body
-                  in: body
-                  description: Whitelist to create
-                  required: true
-                  schema:
-                      $ref: "#/definitions/Whitelist"
-            responses:
-                "201":
-                    description: Whitelist list
-                    schema:
-                        $ref: "#/definitions/Whitelist"
+  /whitelists:
+    get:
+      summary: List whitelist
+      description: "**Required ACL:** `confd.whitelist.read`"
+      tags:
+        - whitelists
+      parameters:
+        - $ref: "#/parameters/tenantuuid"
+      responses:
+        "200":
+          description: Whitelist
+          schema:
+            $ref: "#/definitions/WhitelistItems"
+    post:
+      summary: Create whitelist
+      description: "**Required ACL:** `confd.whitelist.create`"
+      tags:
+        - whitelists
+      parameters:
+        - $ref: "#/parameters/tenantuuid"
+        - name: body
+          in: body
+          description: Whitelist to create
+          required: true
+          schema:
+            $ref: "#/definitions/Whitelist"
+      responses:
+        "201":
+          description: Whitelist list
+          schema:
+            $ref: "#/definitions/Whitelist"
 
-    /whitelists/{whitelist_id}:
-        get:
-            summary: Get Whitelist
-            description: "**Required ACL:** `confd.whitelist.{whitelist_id}.read`"
-            tags:
-                - whitelists
-            parameters:
-                - $ref: "#/parameters/tenantuuid"
-                - $ref: "#/parameters/whitelistid"
-            responses:
-                "200":
-                    description: Whitelist
-                    schema:
-                        $ref: "#/definitions/Whitelist"
-                "404":
-                    $ref: "#/responses/NotFoundError"
-        put:
-            summary: Update Whitelist
-            description: "**Required ACL:** `confd.whitelist.{whitelist_id}.update`"
-            tags:
-                - whitelists
-            parameters:
-                - $ref: "#/parameters/tenantuuid"
-                - $ref: "#/parameters/whitelistid"
-                - name: body
-                  in: body
-                  required: true
-                  schema:
-                      $ref: "#/definitions/Whitelist"
-            responses:
-                "204":
-                    $ref: "#/responses/ResourceUpdated"
-                "400":
-                    $ref: "#/responses/UpdateError"
-                "404":
-                    $ref: "#/responses/NotFoundError"
-        delete:
-            summary: Delete whitelist
-            description: "**Required ACL:** `confd.whitelist.{whitelist_id}.delete`"
-            tags:
-                - whitelists
-            parameters:
-                - $ref: "#/parameters/tenantuuid"
-                - $ref: "#/parameters/whitelistid"
-            responses:
-                "204":
-                    $ref: "#/responses/ResourceDeleted"
-                "400":
-                    $ref: "#/responses/DeleteError"
-                "404":
-                    $ref: "#/responses/NotFoundError"
+  /whitelists/{whitelist_id}:
+    get:
+      summary: Get Whitelist
+      description: "**Required ACL:** `confd.whitelists.{whitelist_id}.read`"
+      tags:
+        - whitelists
+      parameters:
+        - $ref: "#/parameters/tenantuuid"
+        - $ref: "#/parameters/whitelistid"
+      responses:
+        "200":
+          description: Whitelist
+          schema:
+            $ref: "#/definitions/Whitelist"
+        "404":
+          $ref: "#/responses/NotFoundError"
+    put:
+      summary: Update Whitelist
+      description: "**Required ACL:** `confd.whitelists.{whitelist_id}.update`"
+      tags:
+        - whitelists
+      parameters:
+        - $ref: "#/parameters/tenantuuid"
+        - $ref: "#/parameters/whitelistid"
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/Whitelist"
+      responses:
+        "204":
+          $ref: "#/responses/ResourceUpdated"
+        "400":
+          $ref: "#/responses/UpdateError"
+        "404":
+          $ref: "#/responses/NotFoundError"
+    delete:
+      summary: Delete whitelist
+      description: "**Required ACL:** `confd.whitelists.{whitelist_id}.delete`"
+      tags:
+        - whitelists
+      parameters:
+        - $ref: "#/parameters/tenantuuid"
+        - $ref: "#/parameters/whitelistid"
+      responses:
+        "204":
+          $ref: "#/responses/ResourceDeleted"
+        "400":
+          $ref: "#/responses/DeleteError"
+        "404":
+          $ref: "#/responses/NotFoundError"
+
+  /whitelists/check:
+    get:
+      summary: Check if URL is whitelisted
+      description: "Checks whether a given URL is present in the whitelist. **Required ACL:** `confd.whitelist.read`"
+      tags:
+        - whitelists
+      parameters:
+        - $ref: "#/parameters/tenantuuid"
+        - name: url
+          in: query
+          type: string
+          required: true
+          description: The URL to check
+      responses:
+        "200":
+          description: Check result
+          schema:
+            type: string
+        "400":
+          $ref: "#/responses/BadRequestError"
+
+  /whitelists/unique/{unique_id}:
+    get:
+      summary: Get URL by Unique ID
+      description: "Retrieves the URL associated with a given Unique ID. **Required ACL:** `confd.whitelist.read`"
+      tags:
+        - whitelists
+      parameters:
+        - $ref: "#/parameters/tenantuuid"
+        - name: unique_id
+          in: path
+          type: string
+          required: true
+          description: The Unique ID of the whitelist entry
+      responses:
+        "200":
+          description: URL associated with the Unique ID
+          schema:
+            type: object
+            properties:
+              url:
+                type: string
+        "404":
+          $ref: "#/responses/NotFoundError"
 
 parameters:
-    tenantuuid:
-        name: Wazo-Tenant
-        type: string
-        in: header
-        description: "The tenant's UUID, defining the ownership of a given resource."
-        required: false
-    whitelistid:
-        required: true
-        type: integer
-        name: whitelist_id
-        in: path
-        description: Whitelist's ID
+  tenantuuid:
+    name: Wazo-Tenant
+    type: string
+    in: header
+    description: "The tenant's UUID, defining the ownership of a given resource."
+    required: false
+  whitelistid:
+    required: true
+    type: string
+    name: whitelist_id
+    in: path
+    description: Whitelist's UUID
 
 definitions:
-    Whitelist:
-        title: Whitelist
-        allOf:
-            - properties:
-                  id:
-                      type: integer
-                      readOnly: true
-                      description: The id of the whitelist
-                  tenant_uuid:
-                      type: string
-                      description: The tenant's UUID
-                  ip_addresses:
-                      type: array
-                      items:
-                          type: string
-                      description: List of IP addresses
-                  domains:
-                      type: array
-                      items:
-                          type: string
-                      description: List of domains
-                  created_at:
-                      type: string
-                      format: date
-                      description: Creation date
-                  expire_at:
-                      type: string
-                      format: date
-                      description: Expiration date
-                  renew:
-                      type: boolean
-                      description: Renewal status
-    WhitelistItems:
-        title: WhitelistItems
-        properties:
-            items:
-                type: array
-                items:
-                    $ref: "#/definitions/Whitelist"
-            total:
-                type: integer
-        required:
-            - total
+  Whitelist:
+    title: Whitelist
+    allOf:
+      - properties:
+          uuid:
+            type: string
+            format: uuid
+            readOnly: true
+            description: The UUID of the whitelist
+          unique_id:
+            type: string
+            readOnly: true
+            description: The unique identifier for the whitelist
+          url:
+            type: string
+            description: The URL to be whitelisted
+          customer_name:
+            type: string
+            description: The name of the customer
+      - required:
+          - url
+          - customer_name
+  WhitelistItems:
+    title: WhitelistItems
+    properties:
+      items:
+        type: array
+        items:
+          $ref: "#/definitions/Whitelist"
+      total:
+        type: integer
+    required:
+      - total

@@ -8,9 +8,9 @@ setup(
     version='0.1',
     description='Workano whitelist plugin',
     author='Mohsen Rezvani',
-    author_email='foo@bar.com',
+    author_email='mohsenrzva@gmail.com',
     packages=find_packages(),
-    url='https://www.foo-bar.com',
+    url='',
     include_package_data=True,
     package_data={
         'wazo_confd_whitelist': ['api.yml'],
